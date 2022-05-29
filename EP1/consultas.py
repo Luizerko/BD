@@ -1,3 +1,7 @@
+########## PARA UTILIZAR O CÓDIGO RODE: $python3 consultas.py <nome/usuario do db> <senha do db> <numero da consulta> ##########
+########## EXEMPLO: $python3 consultas.py lui senha123 4.1                                                            ##########
+########## NOTE QUE O NOME DO DB E DO USUÁRIO DEVE SER O MESMO                                                        ##########
+
 import psycopg2
 import psycopg2.extras
 import sys
