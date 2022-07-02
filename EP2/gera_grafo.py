@@ -50,9 +50,9 @@ class Neo4jConnection:
 				session.close()
 		return response
 
-conn = Neo4jConnection(uri="bolt://3.227.22.170:7687", 
+conn = Neo4jConnection(uri="bolt://54.211.214.67:7687", 
                        user="neo4j",              
-                       pwd="spills-yolk-arithmetic")
+                       pwd="contents-attribute-superlatives")
 
 conn.query('CREATE CONSTRAINT person IF NOT EXISTS ON (p:PERSON)     ASSERT p.id IS UNIQUE')
 
@@ -65,26 +65,6 @@ def add_person(person):
 
 	return conn.query(query, parameters = {'rows':person.to_dict('records')})
 
-def insert_data(query, rows, batch_size = 7990):
-
-	total = 0
-	batch = 0
-	start = time.time()
-	result = None
-
-	while batch * batch_size < len(rows):
-
-		res = conn.query(query, 
-						 parameters = {'rows': rows[batch*batch_size:(batch+1)*batch_size].to_dict('records')})
-		total += res[0]['total']
-		batch += 1
-		result = {"total":total, 
-				  "batches":batch, 
-				  "time":time.time()-start}
-		print(result)
-
-	return result
-
 def connect_friends(person_friend, batch_size=7990):
 	query = '''
 			UNWIND $rows as row
@@ -95,7 +75,6 @@ def connect_friends(person_friend, batch_size=7990):
 			RETURN count(*) as total
 			'''
 
-	#return insert_data(query, rows, batch_size)
 	return conn.query(query, parameters = {'rows':person_friend.to_dict('records')})
 
 
